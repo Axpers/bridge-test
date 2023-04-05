@@ -17,10 +17,11 @@ export class BankController {
       const result = await this.bankService.getHealth();
       res.send(result);
     });
-    this.router.get('accounts', (req, res) => {
-      res.send(this.bankService.getAccounts());
+    this.router.get('/accounts', async (req, res) => {
+      const result = await this.bankService.getAccounts();
+      res.send(result);
     });
-    this.router.get('transactions', (req, res) => {
+    this.router.get('/transactions', (req, res) => {
       res.send(this.bankService.getTransactions());
     });
   }
