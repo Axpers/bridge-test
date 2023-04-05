@@ -1,9 +1,19 @@
 import axios from 'axios';
-import { AccountsEntity, TransactionsEntity } from '../models/bank';
+import {
+  AccountsEntity,
+  Transaction,
+  TransactionsEntity,
+} from '../models/bank';
+import { BankUtilsService } from './bank-utils-service';
 
 export class BankApiService {
+  private readonly utilsService: BankUtilsService;
   private readonly apiUrl = process.env.BANK_API_URL;
   private readonly apiKey = process.env.BANK_API_KEY;
+
+  constructor() {
+    this.utilsService = new BankUtilsService();
+  }
 
   async getHealth(): Promise<string> {
     const healthUrl = `${this.apiUrl}/health`;
@@ -33,6 +43,13 @@ export class BankApiService {
     const { data } = await axios.get<TransactionsEntity>(transactionsUrl, {
       headers,
     });
-    return data;
+    const transactionsWithoutDuplicate =
+      this.utilsService.removeDuplicate<Transaction>(data.transactions);
+
+    const result: TransactionsEntity = {
+      transactions: transactionsWithoutDuplicate,
+      links: data.links,
+    };
+    return result;
   }
 }
