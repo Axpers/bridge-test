@@ -13,8 +13,9 @@ export class BankController {
   }
 
   private initRoutes() {
-    this.router.get('/health', (req, res) => {
-      res.send(this.bankService.getHealth());
+    this.router.get('/health', async (req, res) => {
+      const result = await this.bankService.getHealth();
+      res.send(result);
     });
     this.router.get('accounts', (req, res) => {
       res.send(this.bankService.getAccounts());
