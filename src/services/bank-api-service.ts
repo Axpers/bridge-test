@@ -1,8 +1,8 @@
 import axios from 'axios';
 import {
   AccountsEntity,
-  Transaction,
   TransactionsEntity,
+  AccountResponse,
 } from '../models/bank';
 import { BankUtilsService } from './bank-utils-service';
 
@@ -31,7 +31,22 @@ export class BankApiService {
     const { data } = await axios.get<AccountsEntity>(accountsUrl, {
       headers,
     });
-    return data;
+    const result: AccountResponse[] = await Promise.allSettled(
+      data.accounts.map(async (account) => {
+        const transaction = await this.getTransactions(account.acc_number);
+
+        const adaptedTransactions = transaction.transactions.map(
+          (transaction) =>
+            this.utilsService.getTransactionsForAccountDetail(transaction),
+        );
+        return {
+          acc_number: account.acc_number,
+          amount: account.amount,
+          transactions: adaptedTransactions,
+        };
+      }),
+    );
+    return result;
   }
 
   async getTransactions(accountId: number): Promise<TransactionsEntity> {

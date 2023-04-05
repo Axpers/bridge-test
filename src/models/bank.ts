@@ -12,9 +12,21 @@ export interface Transaction {
   currency: string;
 }
 
+export interface AccountTransaction {
+  label: string;
+  amount: string;
+  currency: string;
+}
+
 export interface Links {
   self: string;
   next: string;
+}
+
+export interface AccountResponse {
+  acc_number: number;
+  amount: number;
+  transactions: AccountTransaction[];
 }
 
 export interface AccountsEntity {
