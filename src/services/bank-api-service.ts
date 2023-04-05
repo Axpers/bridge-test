@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AccountsResponse } from '../models/bank';
+import { AccountsResponse, TransactionsResponse } from '../models/bank';
 
 export class BankApiService {
   private readonly apiUrl = process.env.BANK_API_URL;
@@ -12,10 +12,8 @@ export class BankApiService {
     return data;
   }
 
-  async getAccounts() {
+  async getAccounts(): Promise<AccountsResponse> {
     const accountsUrl = `${this.apiUrl}/accounts`;
-    console.log(this.apiKey);
-
     const headers = {
       'x-api-key': this.apiKey,
     };
@@ -23,9 +21,18 @@ export class BankApiService {
     const { data } = await axios.get<AccountsResponse>(accountsUrl, {
       headers,
     });
-
     return data;
   }
 
-  getTransactions() {}
+  async getTransactions(accountId: number): Promise<TransactionsResponse> {
+    const transactionsUrl = `${this.apiUrl}/accounts/${accountId}/transactions`;
+    const headers = {
+      'x-api-key': this.apiKey,
+    };
+
+    const { data } = await axios.get<TransactionsResponse>(transactionsUrl, {
+      headers,
+    });
+    return data;
+  }
 }

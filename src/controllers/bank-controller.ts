@@ -21,8 +21,10 @@ export class BankController {
       const result = await this.bankService.getAccounts();
       res.send(result);
     });
-    this.router.get('/transactions', (req, res) => {
-      res.send(this.bankService.getTransactions());
+    this.router.get('/accounts/:id/transactions', async (req, res) => {
+      const accountId = Number(req.params.id);
+      const result = await this.bankService.getTransactions(accountId);
+      res.send(result);
     });
   }
 

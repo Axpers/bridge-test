@@ -4,6 +4,14 @@ export interface Account {
   currency: string;
 }
 
+export interface Transaction {
+  id: number;
+  label: string;
+  sign: string;
+  amount: string;
+  currency: string;
+}
+
 export interface Links {
   self: string;
   next: string;
@@ -11,5 +19,10 @@ export interface Links {
 
 export interface AccountsResponse {
   accounts: Account[];
+  links: Links;
+}
+
+export interface TransactionsResponse {
+  transactions: Transaction[];
   links: Links;
 }
