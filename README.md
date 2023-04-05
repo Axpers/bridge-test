@@ -33,6 +33,7 @@ This application must retrieve and aggregate accounts and transactions data as d
 ## Installing
 
 ```
+npm install ts-node
 npm install
 ```
 
