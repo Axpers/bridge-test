@@ -43,13 +43,8 @@ export class BankApiService {
     const { data } = await axios.get<TransactionsEntity>(transactionsUrl, {
       headers,
     });
-    const transactionsWithoutDuplicate =
-      this.utilsService.removeDuplicate<Transaction>(data.transactions);
 
-    const result: TransactionsEntity = {
-      transactions: transactionsWithoutDuplicate,
-      links: data.links,
-    };
+    const result = this.utilsService.getAdaptedTransactions(data);
     return result;
   }
 }
