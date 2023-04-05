@@ -17,12 +17,12 @@ export interface Links {
   next: string;
 }
 
-export interface AccountsResponse {
+export interface AccountsEntity {
   accounts: Account[];
   links: Links;
 }
 
-export interface TransactionsResponse {
+export interface TransactionsEntity {
   transactions: Transaction[];
   links: Links;
 }

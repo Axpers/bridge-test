@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AccountsResponse, TransactionsResponse } from '../models/bank';
+import { AccountsEntity, TransactionsEntity } from '../models/bank';
 
 export class BankApiService {
   private readonly apiUrl = process.env.BANK_API_URL;
@@ -12,25 +12,25 @@ export class BankApiService {
     return data;
   }
 
-  async getAccounts(): Promise<AccountsResponse> {
+  async getAccounts(): Promise<AccountsEntity> {
     const accountsUrl = `${this.apiUrl}/accounts`;
     const headers = {
       'x-api-key': this.apiKey,
     };
 
-    const { data } = await axios.get<AccountsResponse>(accountsUrl, {
+    const { data } = await axios.get<AccountsEntity>(accountsUrl, {
       headers,
     });
     return data;
   }
 
-  async getTransactions(accountId: number): Promise<TransactionsResponse> {
+  async getTransactions(accountId: number): Promise<TransactionsEntity> {
     const transactionsUrl = `${this.apiUrl}/accounts/${accountId}/transactions`;
     const headers = {
       'x-api-key': this.apiKey,
     };
 
-    const { data } = await axios.get<TransactionsResponse>(transactionsUrl, {
+    const { data } = await axios.get<TransactionsEntity>(transactionsUrl, {
       headers,
     });
     return data;
